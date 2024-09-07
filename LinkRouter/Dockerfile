@@ -19,4 +19,4 @@ RUN dotnet publish "LinkRouter.csproj" -c $BUILD_CONFIGURATION -o /app/publish /
 FROM base AS final
 WORKDIR /
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "/app/publish/LinkRouter.dll"]
+ENTRYPOINT ["dotnet", "LinkRouter.dll"]

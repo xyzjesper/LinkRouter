@@ -7,7 +7,6 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["LinkRouter/LinkRouter.csproj", "LinkRouter/"]
-RUN dotnet restore "LinkRouter/LinkRouter.csproj"
 COPY . .
 WORKDIR "/src/LinkRouter"
 RUN dotnet build "LinkRouter.csproj" -c $BUILD_CONFIGURATION -o /app/build

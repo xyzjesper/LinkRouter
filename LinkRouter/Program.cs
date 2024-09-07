@@ -18,6 +18,9 @@ public abstract class Program
 
         var configFilePath = PathBuilder.File("data", "config.json");
 
+        if (!File.Exists(configFilePath))
+            File.WriteAllText(configFilePath, "{}");
+        
         ConfigService<Config> configService = new(configFilePath);
         
         builder.Services.AddSingleton(configService);

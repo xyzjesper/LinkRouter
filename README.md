@@ -58,7 +58,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./data:/data
+      - ./data:/app/data
 ```
 
 ### Running the Application with Docker Compose:
@@ -76,7 +76,7 @@ This will start the application and map port `5000` on your local machine to por
 Alternatively, you can run the application directly with a `docker run` command if you already have the image.
 
 ```bash
-docker run -d -p 80:80 -v ./data:/data ghcr.io/moritz-deiaco/linkrouter:latest
+docker run -d -p 80:80 -v ./data:/app/data ghcr.io/moritz-deiaco/linkrouter:latest
 ```
 
 This command runs the container in detached mode, binds port `80` on your local machine to port `80` in the container, and mounts the `/data` folder so the container can use your configuration.

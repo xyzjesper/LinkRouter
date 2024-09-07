@@ -17,6 +17,6 @@ ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "LinkRouter.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
-WORKDIR /
-COPY --from=publish /app/app/publish .
+WORKDIR /app
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "LinkRouter.dll"]

@@ -5,7 +5,7 @@ EXPOSE 443
 
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
-WORKDIR /
+WORKDIR /src
 COPY ["LinkRouter/LinkRouter.csproj", "LinkRouter/"]
 RUN dotnet restore "LinkRouter/LinkRouter.csproj"
 COPY . .

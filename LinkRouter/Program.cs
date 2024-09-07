@@ -23,6 +23,11 @@ public abstract class Program
         builder.Services.AddSingleton(configService);
         
         builder.Services.AddControllers();
+        
+        builder.WebHost.ConfigureKestrel(serverOptions =>
+        {
+            serverOptions.ListenAnyIP(80);
+        });
 
         var app = builder.Build();
 

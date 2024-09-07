@@ -66,10 +66,10 @@ services:
 1. Start the container with Docker Compose:
 
    ```bash
-   docker-compose up
+   docker-compose up -d
    ```
 
-This will start the application and map port `5000` on your local machine to port `80` inside the container.
+This will start the application and map port `80` on your local machine to port `80` inside the container.
 
 ### Docker Run Command
 

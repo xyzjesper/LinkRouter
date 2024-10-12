@@ -54,7 +54,7 @@ version: "3.8"
 
 services:
   linkrouter:
-    image: ghcr.io/moritz-deiaco/linkrouter:latest
+    image: ghcr.io/mxritzdev/linkrouter:latest
     ports:
       - "80:80"
     volumes:
@@ -76,7 +76,7 @@ This will start the application and map port `80` on your local machine to port 
 Alternatively, you can run the application directly with a `docker run` command if you already have the image.
 
 ```bash
-docker run -d -p 80:80 -v ./data:/app/data ghcr.io/moritz-deiaco/linkrouter:latest
+docker run -d -p 80:80 -v ./data:/app/data ghcr.io/mxritzdev/linkrouter:latest
 ```
 
 This command runs the container in detached mode, binds port `80` on your local machine to port `80` in the container, and mounts the `/data` folder so the container can use your configuration.

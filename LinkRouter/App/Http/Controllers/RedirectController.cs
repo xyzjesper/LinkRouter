@@ -1,11 +1,12 @@
-﻿using LinkRouter.App.Configuration;
+﻿using System.Text.Json;
+using System.IO;
+using LinkRouter.App.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using MoonCore.Services;
 
 namespace LinkRouter.App.Http.Controllers;
 
 [ApiController]
-[Route("[controller]")]
 public class RedirectController : Controller
 {
 
@@ -19,14 +20,23 @@ public class RedirectController : Controller
     [HttpGet("/{*path}")]
     public IActionResult RedirectToExternalUrl(string path)
     {
-        path = "/" + path.Trim('/');
-
-        var redirectRoute = ConfigService.Get().Routes.FirstOrDefault(x => x.Route == path || x.Route == path + "/");
-
-        if (redirectRoute == null)
+        var configPath = Path.Combine("data", "config.json");
+        
+        if (!System.IO.File.Exists(configPath) || string.IsNullOrEmpty(System.IO.File.ReadAllText(configPath)))
         {
             return NotFound();
         }
+        
+        var config = JsonSerializer.Deserialize<Config>(System.IO.File.ReadAllText(configPath));
+
+        if (config == null)
+            return NotFound();
+        
+        var redirectRoute = config.Routes.FirstOrDefault(x => x.Route == path || x.Route == path + "/");
+
+        if (redirectRoute == null)
+            return NotFound();
+        
         
         return Redirect(redirectRoute.RedirectUrl);
     }

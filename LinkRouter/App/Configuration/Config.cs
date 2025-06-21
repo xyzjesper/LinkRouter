@@ -8,8 +8,7 @@ public class Config
     [JsonProperty("RouteOn/")]
     public string RootRoute { get; set; } = "https://example.com";
 
-    public List<RedirectRoute> Routes { get; set; } = new (
-    [
+    public RedirectRoute[] Routes { get; set; } = [
         new RedirectRoute()
         {
             Route = "/instagram",
@@ -20,5 +19,5 @@ public class Config
             Route = "/example",
             RedirectUrl = "https://example.com"
         },
-    ]);
+    ];
 }

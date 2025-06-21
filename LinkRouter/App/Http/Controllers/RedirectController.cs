@@ -10,33 +10,20 @@ namespace LinkRouter.App.Http.Controllers;
 public class RedirectController : Controller
 {
 
-    private readonly ConfigService<Config> ConfigService;
+    private readonly Config Config;
 
-    public RedirectController(ConfigService<Config> configService)
+    public RedirectController(Config config)
     {
-        ConfigService = configService;
+        Config = config;
     }
 
     [HttpGet("/{*path}")]
     public IActionResult RedirectToExternalUrl(string path)
     {
-        var configPath = Path.Combine("data", "config.json");
-        
-        if (!System.IO.File.Exists(configPath) || string.IsNullOrEmpty(System.IO.File.ReadAllText(configPath)))
-        {
-            return NotFound();
-        }
-        
-        var config = JsonSerializer.Deserialize<Config>(System.IO.File.ReadAllText(configPath));
-
-        if (config == null)
-            return NotFound();
-        
-        var redirectRoute = config.Routes.FirstOrDefault(x => x.Route == path || x.Route == path + "/");
+        var redirectRoute = Config.Routes.FirstOrDefault(x => x.Route == path || x.Route == path + "/" || x.Route == "/" + path);
 
         if (redirectRoute == null)
             return NotFound();
-        
         
         return Redirect(redirectRoute.RedirectUrl);
     }
@@ -44,7 +31,8 @@ public class RedirectController : Controller
     [HttpGet("/")]
     public IActionResult GetRootRoute()
     {
-        string url = ConfigService.Get().RootRoute;
+        string url = Config.RootRoute;
+        
         return Redirect(url);
     }
 }

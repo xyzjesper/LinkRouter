@@ -20,6 +20,7 @@ public abstract class Program
         Directory.CreateDirectory(PathBuilder.Dir("data"));
         
         builder.Services.AddControllers();
+        builder.Services.AddRazorPages();
         
         builder.WebHost.ConfigureKestrel(serverOptions =>
         {
@@ -52,6 +53,7 @@ public abstract class Program
         var app = builder.Build();
 
         app.MapControllers();
+        app.MapRazorPages();
 
         app.Run();
     }

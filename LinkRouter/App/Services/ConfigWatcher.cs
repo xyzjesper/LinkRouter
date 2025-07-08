@@ -47,6 +47,9 @@ public class ConfigWatcher : BackgroundService
             
             Config.Routes = config?.Routes ?? [];
             Config.RootRoute = config?.RootRoute ?? "https://example.com";
+            Config.LinkTree.AddLinkTreePage = config?.LinkTree.AddLinkTreePage ?? false;
+            Config.LinkTree.RedirectNotFoundToLinkTree = config?.LinkTree.RedirectNotFoundToLinkTree ?? true;
+            Config.LinkTree.LinkTreePageUrl = config?.LinkTree.LinkTreePageUrl ?? "/";
             
             Logger.LogInformation("Config file changed.");
         }

@@ -5,10 +5,12 @@ namespace LinkRouter.App.Configuration;
 
 public class Config
 {
-    [JsonProperty("RouteOn/")]
-    public string RootRoute { get; set; } = "https://example.com";
+    [JsonProperty("RouteOn/")] public string RootRoute { get; set; } = "https://example.com";
 
-    public RedirectRoute[] Routes { get; set; } = [
+    public LinkTreeConfig LinkTree { get; set; } = new();
+
+    public RedirectRoute[] Routes { get; set; } =
+    [
         new RedirectRoute()
         {
             Route = "/instagram",
@@ -20,4 +22,11 @@ public class Config
             RedirectUrl = "https://example.com"
         },
     ];
+}
+
+public class LinkTreeConfig
+{
+    public bool AddLinkTreePage { get; set; } = false;
+    public bool RedirectNotFoundToLinkTree { get; set; } = true;
+    public string LinkTreePageUrl { get; set; } = "/";
 }

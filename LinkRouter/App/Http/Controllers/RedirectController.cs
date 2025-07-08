@@ -23,16 +23,20 @@ public class RedirectController : Controller
         var redirectRoute = Config.Routes.FirstOrDefault(x => x.Route == path || x.Route == path + "/" || x.Route == "/" + path);
 
         if (redirectRoute == null)
-            return NotFound();
+        {
+           if (Config.LinkTree.RedirectNotFoundToLinkTree) return Redirect(Config.LinkTree.LinkTreePageUrl);
+           return NotFound();
+        }
+            
         
         return Redirect(redirectRoute.RedirectUrl);
     }
     
     [HttpGet("/")]
-    public IActionResult GetRootRoute()
+    public IActionResult? GetRootRoute()
     {
         string url = Config.RootRoute;
-        
-        return Redirect(url);
+
+        return Config.LinkTree is { LinkTreePageUrl: "/", AddLinkTreePage: true } ? null : Redirect(url);
     }
 }

@@ -1,9 +1,6 @@
-﻿using System.Text.Json;
-using System.IO;
-using LinkRouter.App.Configuration;
+﻿using LinkRouter.App.Configuration;
 using LinkRouter.App.Models;
 using Microsoft.AspNetCore.Mvc;
-using MoonCore.Services;
 
 namespace LinkRouter.App.Http.Controllers;
 
@@ -23,12 +20,19 @@ public class RedirectController : Controller
         var redirectRoute =
             Config.Routes.FirstOrDefault(x => x.Route == path || x.Route == path + "/" || x.Route == "/" + path);
 
-        if (path == Config.LinkTree.LinkTreePageUrl || path + "/" == Config.LinkTree.LinkTreePageUrl ||
-            "/" + path == Config.LinkTree.LinkTreePageUrl)
+        if (Config.LinkTree.AddLinkTreePage && (path == Config.LinkTree.LinkTreePageUrl ||
+                                                path + "/" == Config.LinkTree.LinkTreePageUrl ||
+                                                "/" + path == Config.LinkTree.LinkTreePageUrl))
         {
             return View(new LinkTreeViewModel
             {
                 Title = Config.LinkTree.LinkTreeHTML.Title,
+                Author = Config.LinkTree.LinkTreeHTML.Author,
+                Description = Config.LinkTree.LinkTreeHTML.Description,
+                BackgroundColor = Config.LinkTree.LinkTreeHTML.BackgroundColor,
+                AuthorIconUrl = Config.LinkTree.LinkTreeHTML.AuthorIconUrl,
+                FaviconUrl = Config.LinkTree.LinkTreeHTML.FaviconUrl,
+                TextColor = Config.LinkTree.LinkTreeHTML.TextColor,
                 Links = Config.Routes
             });
         }

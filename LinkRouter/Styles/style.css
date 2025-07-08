@@ -1,0 +1,6 @@
+﻿@import "tailwindcss";
+
+@source "../**/*.razor";
+@source "../**/*.cs";
+@source "../**/*.html";
+@source "./mappings/*.map";

@@ -1,5 +1,3 @@
-
-
 using System.Text.Json;
 using LinkRouter.App.Configuration;
 using LinkRouter.App.Services;
@@ -18,42 +16,48 @@ public abstract class Program
         // Add services to the container.
 
         Directory.CreateDirectory(PathBuilder.Dir("data"));
-        
+
         builder.Services.AddControllers();
         builder.Services.AddRazorPages();
-        
-        builder.WebHost.ConfigureKestrel(serverOptions =>
-        {
-            serverOptions.ListenAnyIP(80);
-        });
-        
+        builder.Services.AddControllersWithViews()
+            .AddRazorOptions(options =>
+            {
+                options.ViewLocationFormats.Clear();
+                options.ViewLocationFormats.Add("~/App/Http/Pages/{1}/{0}.cshtml");
+                options.ViewLocationFormats.Add("~/App/Http/Pages/Shared/{0}.cshtml");
+            });
+
+
+        builder.WebHost.ConfigureKestrel(serverOptions => { serverOptions.ListenAnyIP(80); });
+
         var loggerProviders = LoggerBuildHelper.BuildFromConfiguration(configuration =>
         {
             configuration.Console.Enable = true;
             configuration.Console.EnableAnsiMode = true;
         });
-        
+
         builder.Logging.ClearProviders();
         builder.Logging.AddProviders(loggerProviders);
 
         builder.Services.AddHostedService<ConfigWatcher>();
-        
+
         var configPath = Path.Combine("data", "config.json");
-        
+
         if (!File.Exists(configPath))
             File.WriteAllText(
-                configPath, 
-                JsonSerializer.Serialize(new Config(), new JsonSerializerOptions {WriteIndented = true}
+                configPath,
+                JsonSerializer.Serialize(new Config(), new JsonSerializerOptions { WriteIndented = true }
                 ));
-        
+
         Config? config = JsonSerializer.Deserialize<Config>(File.ReadAllText(configPath)) ?? new Config();
 
         builder.Services.AddSingleton(config);
-        
+
         var app = builder.Build();
 
         app.MapControllers();
         app.MapRazorPages();
+        app.UseStaticFiles();
 
         app.Run();
     }

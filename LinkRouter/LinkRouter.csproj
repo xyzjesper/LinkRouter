@@ -10,6 +10,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.20"/>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
         <PackageReference Include="MoonCore" Version="1.5.4" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
@@ -22,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="App\Http\Pages\" />
+      <Folder Include="wwwroot\css\" />
     </ItemGroup>
 
 </Project>

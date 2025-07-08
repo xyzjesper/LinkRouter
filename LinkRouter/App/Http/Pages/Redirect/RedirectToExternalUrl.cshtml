@@ -1,0 +1,19 @@
+@model LinkRouter.App.Models.LinkTreeViewModel
+
+<head>
+    <title>@Model.Title</title>
+    <link rel="stylesheet" href="/css/style.min.css" asp-append-version="true"/>
+</head>
+
+<h1 class="text-9xl">LinkTreePage</h1>
+
+<p class="text-3xl">This is a test page for LinkTreePage</p>
+<p class="text-3xl">This page is used to test the LinkTreePage functionality.</p>
+
+@foreach (var link in Model.Links)
+{
+    <p class="text-3xl"><a class="text-blue-500 underline" href="@link.RedirectUrl">
+            <img src="@link.Icon" alt="@link.Title" class="inline-block mr-2" style="width: 24px; height: 24px;"/>
+            @link.Title
+        </a></p>
+}

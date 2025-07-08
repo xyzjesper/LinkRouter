@@ -29,4 +29,11 @@ public class LinkTreeConfig
     public bool AddLinkTreePage { get; set; } = false;
     public bool RedirectNotFoundToLinkTree { get; set; } = true;
     public string LinkTreePageUrl { get; set; } = "/";
+
+    public LinkTreeHTML LinkTreeHTML { get; set; } = new();
+}
+
+public class LinkTreeHTML
+{
+    public string Title { get; set; } = "";
 }

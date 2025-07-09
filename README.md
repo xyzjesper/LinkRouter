@@ -1,5 +1,5 @@
 
-> This Repository is a Fork of [mxritzdev/LinkRouter](https://github.com/mxritzdev/LinkRouter) and the main code is from [mxritzdev](https://github.com/mxritzdev) my improvements only adds the Link-Tree Page and the rest of the projects is from [mxritzdev](https://github.com/mxritzdev)
+> This Repository is a Fork of [mxritzdev/LinkRouter](https://github.com/mxritzdev/LinkRouter) and the main code is from [mxritzdev](https://github.com/mxritzdev) my improvements only adds the Link-Tree Page and the rest of the projects is from [mxritzdev](https://github.com/mxritzdev) (MIT from mxritzdev - [LICENSE](LICENSE))
 
 # 📡 LinkRouter
 

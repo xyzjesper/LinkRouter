@@ -19,7 +19,16 @@ public class RedirectController : Controller
     {
         var redirectRoute =
             Config.Routes.FirstOrDefault(x => x.Route == path || x.Route == path + "/" || x.Route == "/" + path);
-
+        
+        
+        if (path.Split("?").Length > 1 && path.Split("?")[0] == Config.AdminUrl)
+        {
+            if (path.Split("?")[1] == "pw=" + Config.AdminPassword)
+            {
+                return View("RedirectToExternalUrlAdminPage");
+            }
+        }
+        
         if (Config.LinkTree.AddLinkTreePage && (path == Config.LinkTree.LinkTreePageUrl ||
                                                 path + "/" == Config.LinkTree.LinkTreePageUrl ||
                                                 "/" + path == Config.LinkTree.LinkTreePageUrl))
@@ -27,12 +36,12 @@ public class RedirectController : Controller
             return View(new LinkTreeViewModel
             {
                 Title = Config.LinkTree.LinkTreeHTML.Title,
+                CustomCSSUrl = Config.LinkTree.LinkTreeHTML.CustomCSSUrl.Length <= 1 ?  "css/linktree.css":Config.LinkTree.LinkTreeHTML.CustomCSSUrl,
                 Author = Config.LinkTree.LinkTreeHTML.Author,
                 Description = Config.LinkTree.LinkTreeHTML.Description,
                 BackgroundColor = Config.LinkTree.LinkTreeHTML.BackgroundColor,
                 AuthorIconUrl = Config.LinkTree.LinkTreeHTML.AuthorIconUrl,
                 FaviconUrl = Config.LinkTree.LinkTreeHTML.FaviconUrl,
-                TextColor = Config.LinkTree.LinkTreeHTML.TextColor,
                 Links = Config.Routes
             });
         }

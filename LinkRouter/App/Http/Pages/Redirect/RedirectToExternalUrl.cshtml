@@ -1,43 +1,50 @@
 @model LinkRouter.App.Models.LinkTreeViewModel
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="utf-8"/>
     <title>@Model.Title</title>
     <link rel="icon" type="image/x-icon" href="@Model.FaviconUrl">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="/css/style.min.css" asp-append-version="true"/>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="@Model.CustomCSSUrl"/>
 </head>
-<body class="bg-gray-950 text-white min-h-screen flex flex-col items-center justify-start px-4 py-10 font-sans">
+<body>
+<main class="container">
+    <header class="profile-header">
+        <img
+            src="@Model.AuthorIconUrl"
+            alt="Profilbild von @Model.Author"
+            class="author-image"
+            loading="lazy"
+            width="128"
+            height="128"
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <h1 class="author">@Model.Author</h1>
+        <p class="description">@Model.Description</p>
+    </header>
 
-<div class="max-w-xl w-full flex flex-col items-center gap-6">
-    <img
-        src="@Model.AuthorIconUrl"
-        alt="@Model.Author"
-        class="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-gray-800 shadow-lg mb-4"
-        loading="lazy"
-        width="128"
-        height="128"
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-    />
-    <h1 class="text-4xl md:text-6xl font-bold text-center">@Model.Author</h1>
-
-    <p class="text-lg md:text-xl text-gray-400 text-center">@Model.Description</p>
-
-    <div class="w-full flex flex-col gap-4 mt-8">
+    <nav class="link-list" aria-label="Wichtige Links">
         @foreach (var link in Model.Links)
         {
             <a href="@link.RedirectUrl"
+               style="--link-color: @link.BackgroundHoverColor"
+               class="link-item"
+               target="_blank"
+               rel="noopener noreferrer"
+               aria-label="@link.Title">
+                <img src="@link.Icon" alt="" class="link-image" aria-hidden="true"/>
 
-               class="flex items-center gap-4 p-4 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all duration-200 shadow-md hover:scale-105">
-                <img src="@link.Icon" alt="@link.Title" class="w-6 h-6 rounded-full"/>
-                <span class="text-lg font-medium">@link.Title</span>
+                <div class="link-content">
+                    <span class="link-title">@link.Title</span>
+                    <p class="link-description">@link.Description</p>
+                </div>
             </a>
         }
-    </div>
-</div>
-
+    </nav>
+</main>
 </body>
 </html>

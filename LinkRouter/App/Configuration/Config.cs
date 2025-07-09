@@ -6,6 +6,9 @@ namespace LinkRouter.App.Configuration;
 public class Config
 {
     [JsonProperty("RouteOn/")] public string RootRoute { get; set; } = "https://example.com";
+    
+    public string AdminPassword { get; set; } = "admin";
+    public string AdminUrl { get; set; } = "/admin";
 
     public LinkTreeConfig LinkTree { get; set; } = new();
 
@@ -36,10 +39,10 @@ public class LinkTreeConfig
 public class LinkTreeHTML
 {
     public string Title { get; set; } = "";
+    public string CustomCSSUrl { get; set; } = "";
     public string Author { get; set; } = "";
     public string Description { get; set; } = "";
     public string AuthorIconUrl { get; set; } = "";
     public string FaviconUrl { get; set; } = "";
     public string BackgroundColor { get; set; } = "#ffffff";
-    public string TextColor { get; set; } = "#000000";
 }

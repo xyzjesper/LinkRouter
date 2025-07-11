@@ -1,5 +1,6 @@
 using System.Text.Json;
 using LinkRouter.App.Configuration;
+using LinkRouter.App.Http.Pages.Admin;
 using LinkRouter.App.Services;
 using MoonCore.Extensions;
 using MoonCore.Helpers;
@@ -15,14 +16,34 @@ public abstract class Program
 
         Directory.CreateDirectory(PathBuilder.Dir("data"));
 
+        builder.Services.AddHostedService<ConfigWatcher>();
+
+        var configPath = Path.Combine("data", "config.json");
+
+        if (!File.Exists(configPath))
+            File.WriteAllText(
+                configPath,
+                JsonSerializer.Serialize(new Config(), new JsonSerializerOptions { WriteIndented = true }
+                ));
+
+        var config = JsonSerializer.Deserialize<Config>(File.ReadAllText(configPath)) ?? new Config();
+
+        builder.Services.AddSingleton(config);
+
+        builder.Services.AddScoped<AdminService>();
+
+        builder.Services.AddRazorComponents()
+            .AddInteractiveServerComponents();
+
         builder.Services.AddControllers();
-        builder.Services.AddRazorPages();
+        builder.Services.AddAntiforgery();
+
         builder.Services.AddControllersWithViews()
             .AddRazorOptions(options =>
             {
                 options.ViewLocationFormats.Clear();
-                options.ViewLocationFormats.Add("~/App/Http/Pages/{1}/{0}.cshtml");
-                options.ViewLocationFormats.Add("~/App/Http/Pages/Shared/{0}.cshtml");
+                options.ViewLocationFormats.Add("~/App/Http/Views/{1}/{0}.cshtml");
+                options.ViewLocationFormats.Add("~/App/Http/Views/Shared/{0}.cshtml");
             });
 
 
@@ -37,25 +58,21 @@ public abstract class Program
         builder.Logging.ClearProviders();
         builder.Logging.AddProviders(loggerProviders);
 
-        builder.Services.AddHostedService<ConfigWatcher>();
-
-        var configPath = Path.Combine("data", "config.json");
-
-        if (!File.Exists(configPath))
-            File.WriteAllText(
-                configPath,
-                JsonSerializer.Serialize(new Config(), new JsonSerializerOptions { WriteIndented = true }
-                ));
-
-        Config? config = JsonSerializer.Deserialize<Config>(File.ReadAllText(configPath)) ?? new Config();
-
-        builder.Services.AddSingleton(config);
-
         var app = builder.Build();
 
-        app.MapControllers();
-        app.MapRazorPages();
         app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.UseAntiforgery();
+
+        app.MapControllers();
+
+        app.MapRazorComponents<App.Http.Pages.App>()
+            .AddInteractiveServerRenderMode();
 
         app.Run();
     }

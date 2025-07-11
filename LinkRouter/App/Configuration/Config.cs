@@ -6,9 +6,8 @@ namespace LinkRouter.App.Configuration;
 public class Config
 {
     [JsonProperty("RouteOn/")] public string RootRoute { get; set; } = "https://example.com";
-    
+
     public string AdminPassword { get; set; } = "admin";
-    public string AdminUrl { get; set; } = "/admin";
 
     public LinkTreeConfig LinkTree { get; set; } = new();
 

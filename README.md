@@ -22,6 +22,10 @@ Routes are managed via a configuration file, `/data/config.json`. You can define
 ```json
 {
   "RootRoute": "https://example.com", // route on the root on the app (eg: yourdomain.com)
+  "NotFoundBehavior": { // the behavior when the requested path was not found in the routes below
+    "RedirectOn404": false, // if it should redirect on 404
+    "RedirectUrl": "https://example.com/404" // where it should redirect to
+  },
   "Routes": [
     {
       "Route": "/instagram", // has to start with a slash

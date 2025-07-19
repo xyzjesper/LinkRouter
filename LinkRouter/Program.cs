@@ -6,6 +6,7 @@ using LinkRouter.App.Services;
 using MoonCore.Extensions;
 using MoonCore.Helpers;
 using MoonCore.Services;
+using Prometheus;
 
 namespace LinkRouter;
 
@@ -46,8 +47,14 @@ public abstract class Program
         
         builder.Services.AddSingleton(config);
         
+        builder.Services.AddMetricServer(options =>
+        {
+            options.Port = 5000;
+        });
+        
         var app = builder.Build();
 
+        app.UseMetricServer();
         app.MapControllers();
 
         app.Run();

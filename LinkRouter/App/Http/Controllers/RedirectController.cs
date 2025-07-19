@@ -3,6 +3,7 @@ using System.IO;
 using LinkRouter.App.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using MoonCore.Services;
+using Prometheus;
 
 namespace LinkRouter.App.Http.Controllers;
 
@@ -11,6 +12,26 @@ public class RedirectController : Controller
 {
 
     private readonly Config Config;
+    
+      
+    private readonly Counter RouteCounter = Metrics.CreateCounter(
+        "linkrouter_requests",
+        "Counts the number of requests to the link router",
+        new CounterConfiguration
+        {
+            LabelNames = new[] { "route" }
+        }
+    );
+    
+    
+    private readonly Counter NotFoundCounter = Metrics.CreateCounter(
+        "linkrouter_404_requests",
+        "Counts the number of not found requests to the link router",
+        new CounterConfiguration
+        {
+            LabelNames = new[] { "route" }
+        }
+    );
 
     public RedirectController(Config config)
     {
@@ -23,8 +44,17 @@ public class RedirectController : Controller
         var redirectRoute = Config.Routes.FirstOrDefault(x => x.Route == path || x.Route == path + "/" || x.Route == "/" + path);
 
         if (redirectRoute != null)
-            return Redirect(redirectRoute.RedirectUrl);
+        {
+            RouteCounter
+                .WithLabels(redirectRoute.Route)
+                .Inc();
             
+            return Redirect(redirectRoute.RedirectUrl);
+        }
+            
+        NotFoundCounter
+            .WithLabels(path)
+            .Inc();
         
         if (Config.NotFoundBehavior.RedirectOn404)
             return Redirect(Config.NotFoundBehavior.RedirectUrl);
@@ -35,6 +65,10 @@ public class RedirectController : Controller
     [HttpGet("/")]
     public IActionResult GetRootRoute()
     {
+        RouteCounter
+            .WithLabels("/")
+            .Inc();
+        
         string url = Config.RootRoute;
         
         return Redirect(url);

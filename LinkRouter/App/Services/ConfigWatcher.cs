@@ -21,7 +21,6 @@ public class ConfigWatcher : BackgroundService
         if (!File.Exists(ConfigPath))
         {
             Logger.LogWarning("Watched file does not exist: {FilePath}", ConfigPath);
-            File.WriteAllText(ConfigPath, "Initial content");
         }
         
         Watcher = new FileSystemWatcher(Path.GetDirectoryName(ConfigPath) ?? throw new InvalidOperationException())

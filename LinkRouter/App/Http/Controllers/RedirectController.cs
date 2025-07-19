@@ -22,10 +22,14 @@ public class RedirectController : Controller
     {
         var redirectRoute = Config.Routes.FirstOrDefault(x => x.Route == path || x.Route == path + "/" || x.Route == "/" + path);
 
-        if (redirectRoute == null)
-            return NotFound();
+        if (redirectRoute != null)
+            return Redirect(redirectRoute.RedirectUrl);
+            
         
-        return Redirect(redirectRoute.RedirectUrl);
+        if (Config.NotFoundBehavior.RedirectOn404)
+            return Redirect(Config.NotFoundBehavior.RedirectUrl);
+        
+        return NotFound();
     }
     
     [HttpGet("/")]

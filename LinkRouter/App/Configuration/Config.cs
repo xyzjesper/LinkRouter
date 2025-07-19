@@ -8,6 +8,8 @@ public class Config
     [JsonProperty("RouteOn/")]
     public string RootRoute { get; set; } = "https://example.com";
 
+    public NotFoundBehaviorConfig NotFoundBehavior { get; set; } = new();
+
     public RedirectRoute[] Routes { get; set; } = [
         new RedirectRoute()
         {
@@ -20,4 +22,10 @@ public class Config
             RedirectUrl = "https://example.com"
         },
     ];
+    
+    public class NotFoundBehaviorConfig
+    {
+        public bool RedirectOn404 { get; set; } = false;
+        public string RedirectUrl { get; set; } = "https://example.com/404";
+    }
 }

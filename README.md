@@ -50,13 +50,11 @@ LinkRouter includes a `docker-compose.yml` file for easy containerized deploymen
 Create a `docker-compose.yml` file with the following content:
 
 ```yaml
-version: "3.8"
-
 services:
   linkrouter:
     image: ghcr.io/mxritzdev/linkrouter:latest
     ports:
-      - "80:80"
+      - "80:8080"
     volumes:
       - ./data:/app/data
 ```
@@ -76,7 +74,7 @@ This will start the application and map port `80` on your local machine to port 
 Alternatively, you can run the application directly with a `docker run` command if you already have the image.
 
 ```bash
-docker run -d -p 80:80 -v ./data:/app/data ghcr.io/mxritzdev/linkrouter:latest
+docker run -d -p 80:8080 -v ./data:/app/data ghcr.io/mxritzdev/linkrouter:latest
 ```
 
 This command runs the container in detached mode, binds port `80` on your local machine to port `80` in the container, and mounts the `/data` folder so the container can use your configuration.
@@ -91,4 +89,4 @@ We welcome contributions! Please submit a pull request or open an issue to discu
 
 ## 📬 Contact
 
-For questions or support, please reach out via discord at **moritzdev**
+For questions or support, please reach out via discord at **mxritzdev**

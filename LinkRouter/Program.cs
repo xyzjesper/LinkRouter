@@ -21,11 +21,6 @@ public abstract class Program
         
         builder.Services.AddControllers();
         
-        builder.WebHost.ConfigureKestrel(serverOptions =>
-        {
-            serverOptions.ListenAnyIP(80);
-        });
-        
         var loggerProviders = LoggerBuildHelper.BuildFromConfiguration(configuration =>
         {
             configuration.Console.Enable = true;

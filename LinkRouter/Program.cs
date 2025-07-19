@@ -45,8 +45,10 @@ public abstract class Program
                 JsonSerializer.Serialize(new Config(), new JsonSerializerOptions {WriteIndented = true}
                 ));
         
-        Config? config = JsonSerializer.Deserialize<Config>(File.ReadAllText(configPath)) ?? new Config();
+        Config config = JsonSerializer.Deserialize<Config>(File.ReadAllText(configPath)) ?? new Config();
 
+        File.WriteAllText(configPath, JsonSerializer.Serialize(config, new JsonSerializerOptions {WriteIndented = true}));
+        
         builder.Services.AddSingleton(config);
         
         var app = builder.Build();

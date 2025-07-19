@@ -4,6 +4,8 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   push:
+    paths:
+        - LinkRouter/**
 
 env:
   GH_TOKEN: ${{secrets.GH_TOKEN}}

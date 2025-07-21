@@ -14,9 +14,7 @@ public abstract class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
-        // Add services to the container.
-
+        
         Directory.CreateDirectory(PathBuilder.Dir("data"));
         
         builder.Services.AddControllers();

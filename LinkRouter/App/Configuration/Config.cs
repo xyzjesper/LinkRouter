@@ -7,6 +7,7 @@ public class Config
 {
     [JsonProperty("RouteOn/")] public string RootRoute { get; set; } = "https://example.com";
 
+    public NotFoundBehaviorConfig NotFoundBehavior { get; set; } = new();
     public string AdminPassword { get; set; } = "admin";
 
     public LinkTreeConfig LinkTree { get; set; } = new();
@@ -29,7 +30,6 @@ public class Config
 public class LinkTreeConfig
 {
     public bool AddLinkTreePage { get; set; } = false;
-    public bool RedirectNotFoundToLinkTree { get; set; } = true;
     public string LinkTreePageUrl { get; set; } = "/";
 
     public LinkTreeHTML LinkTreeHTML { get; set; } = new();
@@ -44,4 +44,10 @@ public class LinkTreeHTML
     public string AuthorIconUrl { get; set; } = "";
     public string FaviconUrl { get; set; } = "";
     public string BackgroundColor { get; set; } = "#ffffff";
+}
+
+public class NotFoundBehaviorConfig
+{
+    public bool RedirectOn404 { get; set; } = false;
+    public string RedirectUrl { get; set; } = "https://example.com/404";
 }

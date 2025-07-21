@@ -51,7 +51,7 @@ public class RedirectController : Controller
         }
             
         NotFoundCounter
-            .WithLabels(path)
+            .WithLabels("/" + path)
             .Inc();
         
         if (Config.NotFoundBehavior.RedirectOn404)

@@ -1,4 +1,5 @@
-using LinkRouter.App.Configuration;
+﻿using LinkRouter.App.Configuration;
+using LinkRouter.App.Models;
 using Microsoft.AspNetCore.Mvc;
 using Prometheus;
 
@@ -41,6 +42,25 @@ public class RedirectController : Controller
     {
         var redirectRoute = Config.Routes.FirstOrDefault(x => x.Route == path || x.Route == path + "/" || x.Route == "/" + path);
 
+        if (Config.LinkTree.AddLinkTreePage && (path == Config.LinkTree.LinkTreePageUrl ||
+                                                path + "/" == Config.LinkTree.LinkTreePageUrl ||
+                                                "/" + path == Config.LinkTree.LinkTreePageUrl))
+        {
+            return View(new LinkTreeViewModel
+            {
+                Title = Config.LinkTree.LinkTreeHTML.Title,
+                CustomCSSUrl = Config.LinkTree.LinkTreeHTML.CustomCSSUrl.Length <= 1
+                    ? "css/linktree.css"
+                    : Config.LinkTree.LinkTreeHTML.CustomCSSUrl,
+                Author = Config.LinkTree.LinkTreeHTML.Author,
+                Description = Config.LinkTree.LinkTreeHTML.Description,
+                BackgroundColor = Config.LinkTree.LinkTreeHTML.BackgroundColor,
+                AuthorIconUrl = Config.LinkTree.LinkTreeHTML.AuthorIconUrl,
+                FaviconUrl = Config.LinkTree.LinkTreeHTML.FaviconUrl,
+                Links = Config.Routes
+            });
+        }
+        
         if (redirectRoute != null)
         {
             RouteCounter
@@ -54,10 +74,7 @@ public class RedirectController : Controller
             .WithLabels("/" + path)
             .Inc();
         
-        if (Config.NotFoundBehavior.RedirectOn404)
-            return Redirect(Config.NotFoundBehavior.RedirectUrl);
-        
-        return NotFound();
+        return Config.LinkTree.RedirectNotFoundToLinkTree ? Redirect(Config.LinkTree.LinkTreePageUrl) : Redirect(path);
     }
     
     [HttpGet("/")]
@@ -69,6 +86,6 @@ public class RedirectController : Controller
         
         string url = Config.RootRoute;
         
-        return Redirect(url);
+        return Config.LinkTree is { LinkTreePageUrl: "/", AddLinkTreePage: true } ? null : Redirect(url);
     }
 }

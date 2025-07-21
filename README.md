@@ -68,7 +68,7 @@ The following metrics are currently exported:
 -   `linkrouter_404_requests{route="..."}` — Counter of requests that resulted in a 404 Not Found, labeled by the originally requested route.
 
     
-Metrics follow the Prometheus exposition format, and can be scraped directly by Prometheus or queried via tools like Grafana.
+Metrics follow the Prometheus exposition format, and can be scraped directly by Prometheus or queried via tools like Grafana. [Example Grafana Dashboard](example-grafana-dashboard.json)
 
 ### Example Prometheus Scrape Config
 ```yaml

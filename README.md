@@ -70,7 +70,7 @@ The following metrics are currently exported:
     
 Metrics follow the Prometheus exposition format, and can be scraped directly by Prometheus or queried via tools like Grafana. [Example Grafana Dashboard](example-grafana-dashboard.json)
 
-![image](.ressources/img/)
+![image](.ressources/img/grafana-dashboard.png)
 
 ### Example Prometheus Scrape Config
 ```yaml

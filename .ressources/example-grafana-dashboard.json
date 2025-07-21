@@ -113,10 +113,6 @@
             "steps": [
               {
                 "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -309,7 +305,8 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "fixedColor": "red",
+            "mode": "fixed"
           },
           "custom": {
             "axisBorderShow": false,
@@ -350,10 +347,6 @@
             "steps": [
               {
                 "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -597,6 +590,6 @@
   "timezone": "browser",
   "title": "LinkRouter",
   "uid": "922ee09f-2e9e-43bf-82bc-17feb5bae32c",
-  "version": 25,
+  "version": 28,
   "weekStart": ""
 }

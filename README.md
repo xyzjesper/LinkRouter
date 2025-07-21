@@ -1,24 +1,19 @@
-# 📡 LinkRouter
+# Linkrouter
+**LinkRouter** is a lightweight, configurable routing application that directs incoming requests to designated target URLs based on a user-defined configuration file.
 
-**LinkRouter** is a lightweight routing application designed to route incoming requests to specific URLs based on a configuration file. It primarily handles links from the `.link` domain and provides flexible routing for custom links such as `/instagram`, `/youtube/test`, or any other custom path.
+[⬇️How to install⬇️](#installation)
 
-## ✨ Features
+## Features
+ -   **Path-based Redirection:** Reads a config file that maps paths to redirect URLs. When a request hits a registered path, the router issues an HTTP redirect to the corresponding target.
+-   **Hot Reloading:** The config is cached at startup and automatically reloaded when the file changes — no restart required. [Example config](#example-config)
+-   **Low Resource Usage:** Uses less than 50MB of RAM, making it ideal for constrained environments. 
+-   **Metrics Endpoint:** Exposes Prometheus-compatible metrics at `:5000/metrics` for easy observability and monitoring. [How to use](#metrics)
+ -   **Docker-Deployable:** Comes with a minimal Dockerfile for easy containerized deployment.
 
-- 🔗 Routes requests based on a pre-configured set of paths.
-- 🚪 Handles both trailing and non-trailing slashes.
-- 🌍 Supports external redirects (e.g., to social media profiles, websites, etc.).
-- ⚙️ Configuration-driven, allowing easy updates of routing paths.
-- 📜 Logs requests and routes for monitoring and debugging purposes.
-
-## 🛠 Prerequisites
-
-- A **domain** (optional)
-- **Docker** or **Docker Compose** installed for containerized deployment.
-
-## 🔧 Configuration
-
+## Configuration
 Routes are managed via a configuration file, `/data/config.json`. You can define paths and their corresponding URLs in this file. The application automatically normalizes routes to handle both trailing and non-trailing slashes.
-
+> Every route **must** start with a slash
+### Example Config
 ```json
 {
   "RootRoute": "https://example.com", // route on the root on the app (eg: yourdomain.com)
@@ -38,20 +33,11 @@ Routes are managed via a configuration file, `/data/config.json`. You can define
   ]
 }
 ```
+## Installation
+> **Docker** is required to deploy this project. [Install docker](https://docs.docker.com/get-started/)
 
-## 💻 Usage
-
-Once the application is running, it will listen for requests and route them based on the paths defined in your configuration file.
-
-## 🐳 Docker Deployment
-
-### Docker Compose
-
-LinkRouter includes a `docker-compose.yml` file for easy containerized deployment. With Docker Compose, you can quickly spin up the application using predefined settings.
-
-### Docker Compose Example:
-
-Create a `docker-compose.yml` file with the following content:
+### Using Docker Compose
+1. Create a `docker-compose.yml` file with the following content:
 
 ```yaml
 services:
@@ -62,35 +48,43 @@ services:
     volumes:
       - ./data:/app/data
 ```
+2. Run `docker compose up -d` to start the container
+3. Configure your routes in `./data/config.json`
+### Using `docker run`
+1. Run this command: `docker run -p 80:8080 -v ./data:/app/data ghcr.io/mxritzdev/linkrouter:latest`
+2. Configure your routes in `./data/config.json`
 
-### Running the Application with Docker Compose:
+## Metrics
+Prometheus-compatible metrics are exposed on `:5000/metrics`
 
-1. Start the container with Docker Compose:
+> ‼️**Do not expose port `5000` to the public internet, instead use internal [docker networking](https://docs.docker.com/engine/network/)**
 
-   ```bash
-   docker-compose up -d
-   ```
+### Available Metrics
 
-This will start the application and map port `80` on your local machine to port `80` inside the container.
+The following metrics are currently exported:
 
-### Docker Run Command
+-   `linkrouter_requests{route="..."}` — Counter of total redirects served, labeled by route.
+    
+-   `linkrouter_404_requests{route="..."}` — Counter of requests that resulted in a 404 Not Found, labeled by the originally requested route.
 
-Alternatively, you can run the application directly with a `docker run` command if you already have the image.
+    
+Metrics follow the Prometheus exposition format, and can be scraped directly by Prometheus or queried via tools like Grafana.
 
-```bash
-docker run -d -p 80:8080 -v ./data:/app/data ghcr.io/mxritzdev/linkrouter:latest
+### Example Prometheus Scrape Config
+```yaml
+`scrape_configs:
+	-  job_name:  'linkrouter'
+	   static_configs:
+	   -  targets: ['{linkrouter host}:5000']
 ```
+## Contributing
 
-This command runs the container in detached mode, binds port `80` on your local machine to port `80` in the container, and mounts the `/data` folder so the container can use your configuration.
+Contributions are welcome! Please submit a pull request or open an issue to discuss improvements or new features.
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributing
-
-We welcome contributions! Please submit a pull request or open an issue to discuss improvements or new features.
-
-## 📬 Contact
+##  Contact
 
 For questions or support, please reach out via discord at **mxritzdev**

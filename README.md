@@ -73,9 +73,9 @@ Metrics follow the Prometheus exposition format, and can be scraped directly by 
 ### Example Prometheus Scrape Config
 ```yaml
 `scrape_configs:
-	-  job_name:  'linkrouter'
-	   static_configs:
-	   -  targets: ['{linkrouter host}:5000']
+  -  job_name:  'linkrouter'
+    static_configs:
+    -  targets: ['{linkrouter host}:5000']
 ```
 ## Contributing
 

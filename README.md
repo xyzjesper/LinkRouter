@@ -19,6 +19,7 @@
 ## Configuration
 Routes are managed via a configuration file, `/data/config.json`. You can define paths and their corresponding URLs in this file. The application automatically normalizes routes to handle both trailing and non-trailing slashes.
 > Every route **must** start with a slash
+#### Currently not up-to-date
 ### Example Config
 ```json
 {
@@ -48,7 +49,7 @@ Routes are managed via a configuration file, `/data/config.json`. You can define
 ```yaml
 services:
   linkrouter:
-    image: ghcr.io/mxritzdev/linkrouter:latest
+    image: ghcr.io/xyzjesper/linkrouter:latest
     ports:
       - "80:8080"
     volumes:
@@ -57,7 +58,7 @@ services:
 2. Run `docker compose up -d` to start the container
 3. Configure your routes in `./data/config.json`
 ### Using `docker run`
-1. Run this command: `docker run -p 80:8080 -v ./data:/app/data ghcr.io/mxritzdev/linkrouter:latest`
+1. Run this command: `docker run -p 80:8080 -v ./data:/app/data ghcr.io/xyzjesper/linkrouter:latest`
 2. Configure your routes in `./data/config.json`
 
 ## Metrics
@@ -95,4 +96,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ##  Contact
 
-For questions or support, please reach out via discord at **mxritzdev**
+For questions or support, please reach out via discord at **xyzjesper** (or mxritzdev as the original Author)

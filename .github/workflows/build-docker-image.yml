@@ -33,7 +33,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GH_TOKEN }}
+          password: ${{ env.GH_TOKEN }}
 
       - uses: docker/build-push-action@v5
         with:
